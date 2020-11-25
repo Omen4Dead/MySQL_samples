@@ -13,7 +13,12 @@ WHERE id = (SELECT
 
 -- 2. Подсчитать общее количество лайков, которые получили пользователи младше 10 лет..
 
-
+SELECT id, 
+       firstname, 
+       lastname, 
+       (SELECT birthday FROM profiles WHERE users.id = user_id) AS birthday,
+       (SELECT media_id FROM likes WHERE users.id = user_id) AS likes
+FROM users;
 
 -- 3. Определить кто больше поставил лайков (всего): мужчины или женщины.
 
