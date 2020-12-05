@@ -16,9 +16,16 @@ WHERE id = (SELECT
 SELECT id, 
        firstname, 
        lastname, 
-       (SELECT birthday FROM profiles WHERE users.id = user_id) AS birthday,
-       (SELECT media_id FROM likes WHERE users.id = user_id) AS likes
-FROM users;
+       (SELECT birthday 
+        FROM profiles 
+        WHERE users.id = user_id) AS birthday
+--         
+--        (SELECT media_id 
+--         FROM likes 
+--         WHERE users.id = user_id) AS likess
+        
+FROM users
+WHERE id = (SELECT user_id FROM profiles WHERE users.id = user_id AND (birthday + INTERVAL 10 YEAR) < NOW());
 
 -- 3. Определить кто больше поставил лайков (всего): мужчины или женщины.
 

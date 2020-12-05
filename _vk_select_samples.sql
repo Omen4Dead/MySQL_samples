@@ -21,12 +21,12 @@ WHERE id = 1;
 SELECT 
 	firstname, 
 	lastname, 
-	(SELECT hometown FROM profiles WHERE user_id = 1) AS city,
+	(SELECT hometown FROM profiles WHERE user_id = 105) AS city,
 	(SELECT filename FROM media WHERE id = 
-	    (SELECT photo_id FROM profiles WHERE user_id = 1)
+	    (SELECT photo_id FROM profiles WHERE user_id = 105)
 	) AS main_photo
 FROM users 
-WHERE id = 1;
+WHERE id = 105;
 
 -- Начинаем работать с фотографиями
 -- в типах медиа данных есть фото:
@@ -68,7 +68,7 @@ select *
   
 -- Выбираем путь к видео файлам, которые есть в новостях
 SELECT filename FROM media 
-	WHERE user_id = 1
+	WHERE user_id = 105
   AND media_type_id = (
     SELECT id FROM media_types WHERE name LIKE 'video' limit 1
 );
