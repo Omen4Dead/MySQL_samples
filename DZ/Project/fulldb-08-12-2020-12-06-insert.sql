@@ -12,21 +12,7 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-DROP TABLE IF EXISTS `award_film`;
-CREATE TABLE `award_film` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `award_id` bigint(20) unsigned NOT NULL,
-  `film_id` bigint(20) unsigned DEFAULT NULL,
-  `person_id` bigint(20) unsigned DEFAULT NULL,
-  `is_winner` bit(1) DEFAULT NULL,
-  UNIQUE KEY `id` (`id`),
-  KEY `award_id` (`award_id`),
-  KEY `film_id` (`film_id`),
-  KEY `person_id` (`person_id`),
-  CONSTRAINT `award_film_ibfk_1` FOREIGN KEY (`award_id`) REFERENCES `awards` (`id`),
-  CONSTRAINT `award_film_ibfk_2` FOREIGN KEY (`film_id`) REFERENCES `film` (`id`),
-  CONSTRAINT `award_film_ibfk_3` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Награды фильмов и людей';
+
 
 INSERT INTO `award_film` VALUES ('1','1','1','1','1'),
 ('2','2','2','2','0'),
@@ -130,14 +116,7 @@ INSERT INTO `award_film` VALUES ('1','1','1','1','1'),
 ('100','100','50','100','1'); 
 
 
-DROP TABLE IF EXISTS `awards`;
-CREATE TABLE `awards` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `description` text COLLATE utf8_unicode_ci DEFAULT NULL,
-  UNIQUE KEY `id` (`id`),
-  KEY `award_name_idx` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Награды';
+
 
 INSERT INTO `awards` VALUES ('1','quam','Soluta sit incidunt asperiores a ut. Ipsa itaque labore mollitia iure. Accusantium odio qui qui sapiente nihil.'),
 ('2','omnis','Voluptates tempora soluta odit eum quis. Non non quisquam saepe. Rerum aut harum molestias sit placeat ratione.'),
@@ -241,18 +220,7 @@ INSERT INTO `awards` VALUES ('1','quam','Soluta sit incidunt asperiores a ut. Ip
 ('100','in','Ad vel omnis sunt asperiores voluptate. Ea quia voluptatum nulla eius perspiciatis. Quaerat ut magni iste repellat officia cupiditate itaque. Aut rerum id cupiditate mollitia illo et maxime veniam.'); 
 
 
-DROP TABLE IF EXISTS `film`;
-CREATE TABLE `film` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `release_date` date NOT NULL,
-  `duration` int(11) NOT NULL,
-  `description` text COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rating_KP` float DEFAULT NULL,
-  `rating_imdb` float DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `films_idx` (`name`,`release_date`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Фильмы';
+
 
 INSERT INTO `film` VALUES ('1','vel','1987-10-05','6','Deserunt animi omnis eaque enim maiores qui.','2','1'),
 ('2','placeat','1998-08-03','7','Et fugiat dolorum voluptatibus et quibusdam.','1','7'),
@@ -306,18 +274,6 @@ INSERT INTO `film` VALUES ('1','vel','1987-10-05','6','Deserunt animi omnis eaqu
 ('50','veritatis','2006-08-16','4','Enim enim ut ipsa asperiores.','6','4'); 
 
 
-DROP TABLE IF EXISTS `film_lang`;
-CREATE TABLE `film_lang` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `film_id` bigint(20) unsigned NOT NULL,
-  `language_id` bigint(20) unsigned NOT NULL,
-  `is_original` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`film_id`,`language_id`),
-  UNIQUE KEY `id` (`id`),
-  KEY `language_id` (`language_id`),
-  CONSTRAINT `film_lang_ibfk_1` FOREIGN KEY (`film_id`) REFERENCES `film` (`id`),
-  CONSTRAINT `film_lang_ibfk_2` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Фильм-Язык(оригинал)';
 
 INSERT INTO `film_lang` VALUES ('101','1','1','1'),
 ('102','2','2','0'),
@@ -371,15 +327,6 @@ INSERT INTO `film_lang` VALUES ('101','1','1','1'),
 ('150','50','50','0'); 
 
 
-DROP TABLE IF EXISTS `film_tag`;
-CREATE TABLE `film_tag` (
-  `film_id` bigint(20) unsigned NOT NULL,
-  `tag_id` bigint(20) unsigned NOT NULL,
-  PRIMARY KEY (`film_id`,`tag_id`),
-  KEY `tag_id` (`tag_id`),
-  CONSTRAINT `film_tag_ibfk_1` FOREIGN KEY (`film_id`) REFERENCES `film` (`id`),
-  CONSTRAINT `film_tag_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Фильмы-Жанр';
 
 INSERT INTO `film_tag` VALUES ('1','4'),
 ('2','8'),
@@ -442,12 +389,6 @@ INSERT INTO `film_tag` VALUES ('1','4'),
 ('50','4'); 
 
 
-DROP TABLE IF EXISTS `languages`;
-CREATE TABLE `languages` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `lang` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Языки';
 
 INSERT INTO `languages` VALUES ('1','cn'),
 ('2','es'),
@@ -501,17 +442,6 @@ INSERT INTO `languages` VALUES ('1','cn'),
 ('50','cn'); 
 
 
-DROP TABLE IF EXISTS `person`;
-CREATE TABLE `person` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `birth_date` date DEFAULT NULL,
-  `death_date` date DEFAULT NULL,
-  `country` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `bio` text COLLATE utf8_unicode_ci DEFAULT NULL,
-  UNIQUE KEY `id` (`id`),
-  KEY `person_name_idx` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Участники кино';
 
 INSERT INTO `person` VALUES ('1','Rahul Marvin','1996-05-27','2019-06-03','United Kingdom','Possimus alias et reiciendis asperiores inventore. Soluta minus id qui ut autem. Sed perspiciatis illo sapiente earum. Sunt dolor vitae quia ipsam occaecati.'),
 ('2','Vanessa Dicki','1989-12-01','0000-00-00','Burundi','Laborum et debitis ipsam dolorem. Laudantium ut quia quae voluptatem. Quis praesentium esse dolores. Aut ratione et consequatur doloribus.'),
@@ -678,12 +608,6 @@ INSERT INTO `serials` VALUES ('101','1','8','2'),
 ('150','50','4','2'); 
 
 
-DROP TABLE IF EXISTS `tags`;
-CREATE TABLE `tags` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` text COLLATE utf8_unicode_ci DEFAULT NULL,
-  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Жанры';
 
 INSERT INTO `tags` VALUES ('1','voluptatem'),
 ('2','in'),
@@ -737,17 +661,7 @@ INSERT INTO `tags` VALUES ('1','voluptatem'),
 ('50','omnis'); 
 
 
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `email` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `region` text COLLATE utf8_unicode_ci DEFAULT NULL,
-  `birthday` date DEFAULT NULL,
-  `reg_time` datetime DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`),
-  KEY `name_idx` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Пользователь';
+
 
 INSERT INTO `user` VALUES ('1','Alvera Quigley','uparker@example.org','Djibouti','2010-09-17','2018-07-10 05:04:45'),
 ('2','Laurine Nicolas IV','icie56@example.net','Belarus','1999-08-31','2003-09-18 11:28:38'),
@@ -851,21 +765,7 @@ INSERT INTO `user` VALUES ('1','Alvera Quigley','uparker@example.org','Djibouti'
 ('100','Flo Berge','janie61@example.org','Panama','1972-06-18','2016-04-09 23:55:24'); 
 
 
-DROP TABLE IF EXISTS `user_film_rating`;
-CREATE TABLE `user_film_rating` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `film_id` bigint(20) unsigned NOT NULL,
-  `user_id` bigint(20) unsigned NOT NULL,
-  `rating` int(11) DEFAULT NULL,
-  `comment` text COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp(),
-  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
-  PRIMARY KEY (`film_id`,`user_id`),
-  UNIQUE KEY `id` (`id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `user_film_rating_ibfk_1` FOREIGN KEY (`film_id`) REFERENCES `film` (`id`),
-  CONSTRAINT `user_film_rating_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Рейтинги + комментарии пользователя';
+
 
 INSERT INTO `user_film_rating` VALUES ('1','1','1','2','A soluta recusandae voluptas voluptatem. Dolorem veniam rem sit et consequatur aliquid saepe.','1972-11-25 09:57:45','2001-07-30 14:55:07'),
 ('51','1','51','8','Culpa sed deleniti omnis. Officiis ipsum ut sit sed. Est nihil et eius occaecati iste aspernatur. Praesentium qui quo quia earum earum rerum. Exercitationem a nisi eos.','1990-09-03 04:41:44','1987-08-14 14:03:47'),
@@ -969,16 +869,7 @@ INSERT INTO `user_film_rating` VALUES ('1','1','1','2','A soluta recusandae volu
 ('100','50','100','7','Asperiores iste quod exercitationem autem eos beatae. Suscipit perspiciatis nihil blanditiis quia accusamus ex rerum. Nihil dolor error ea et. Sed laborum enim laboriosam repellendus cum quae est.','2006-06-27 04:49:57','2019-02-18 15:00:56'); 
 
 
-DROP TABLE IF EXISTS `user_session`;
-CREATE TABLE `user_session` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) unsigned NOT NULL,
-  `start_session` datetime DEFAULT current_timestamp(),
-  `end_session` datetime DEFAULT current_timestamp(),
-  UNIQUE KEY `id` (`id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `user_session_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Даты сессий пользователей';
+
 
 INSERT INTO `user_session` VALUES ('1','1','1972-01-31 05:50:02','2003-02-28 07:06:57'),
 ('2','2','2012-12-29 19:14:32','2006-09-27 17:39:23'),
