@@ -14,7 +14,7 @@ COMMIT;
 
 -- Создайте представление, которое выводит название name товарной позиции из таблицы products и соответствующее название каталога name из таблицы catalogs.
 
-CREATE OR REPLACE VIEW names AS
+CREATE OR REPLACE VIEW names
 SELECT name, (SELECT name FROM catalogs WHERE id = products.catalog_id) AS catalog_name
 FROM products;
 
@@ -62,7 +62,7 @@ CREATE TRIGGER products_insert BEFORE INSERT ON products
 FOR EACH ROW
 BEGIN
     IF ((NEW.products.name IS NULL) AND (NEW.products.description IS NULL)) THEN 
-        SELECT 'Вставка невозможна!';
+        RETURN 'Вставка невозможна!';
     END IF;
 END//
 

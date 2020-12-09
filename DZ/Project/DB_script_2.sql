@@ -121,7 +121,7 @@ CREATE TABLE person (
 DROP TABLE IF EXISTS award_film;
 CREATE TABLE award_film (
     id SERIAL, 
-    award_id BIGINT UNSIGNED NOT NULL,
+    award_id BIGINT UNSIGNED,
     film_id BIGINT UNSIGNED,
     person_id BIGINT UNSIGNED,
     is_winner BIT,
