@@ -124,7 +124,7 @@ BEGIN
     DECLARE `_rollback` BOOL DEFAULT 0;
    	DECLARE code varchar(100);
    	DECLARE error_string varchar(100);
-   DECLARE last_user_id int;
+    DECLARE last_user_id int;
 
    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
    begin
